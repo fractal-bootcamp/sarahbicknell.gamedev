@@ -1,4 +1,4 @@
-import {Board, checkWinCondition} from './src/games2'
+import {Board, checkWinCondition} from './src/games'
 
 const gameBoard = [
     'X', 'X', 'X',

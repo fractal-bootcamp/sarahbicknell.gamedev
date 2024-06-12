@@ -1,47 +1,41 @@
 import './App.css'
+import { useState } from 'react'
 
-const game = {
-  board: [null, null, null, null, null, null, null, null, null]
+function Square({value, onSquareClick}) {
+  return (
+    <button className="square" onClick={onSquareClick} > {value} </button> 
+  )
+
 }
 
-function checkForWin(game) {
+export default function Board() {
+  const [squares, setSquares] = useState(Array(9).fill(null))
 
-    //array of possible win configurations
-    const possibleWinPositions = [
-      [0, 1, 2], [3, 4, 5], [6, 7, 9], [0, 3, 6], [1, 4, 7,], [2, 5, 8], [0, 4, 8], [2, 4, 6]
-    ]
-
-    // checks whether a given position is a winner and returns a boolean to represent this 
-    function isWinningPosition {
-
-      //.every 
-      return null
-    }
-
-  
-
-    //using .find to call the isWinning function to return the first possible position that is a win 
-    const winningPosition = possibleWinPositions.find(winPosition => {
-      const isWin = winPosition.every(index => {
-
-      })
-    })
-
-    // if there is a winning position, check 
-    if (winningPosition) {
-      return [outcome: 'win', winner: game.board[winningPosition[0]]
-    }
-}
-
-function App() {
+  function handleClick(i) { 
+    const nextSquares = squares.slice();
+    nextSquares[i] = "X" ;
+    setSquares(nextSquares) }
 
   return (
-    <>
-    <div> 
-      <h1> TEEK TAK TOE</h1>
-    </div>
+    <> 
+      <div>
+        <div className="board-row">
+          <Square value={squares[0]} onSquareClick={() => handleClick(0)} /> 
+          <Square value={squares[1]} onSquareClick={() => handleClick(1)}/> 
+          <Square value={squares[2]} onSquareClick={() => handleClick(2)}/> 
+        </div> 
+        <div className="board-row"> 
+          <Square value={squares[3]} onSquareClick={() => handleClick(3)}/> 
+          <Square value={squares[4]} onSquareClick={() => handleClick(4)}/> 
+          <Square value={squares[5]} onSquareClick={() => handleClick(5)}/> 
+        </div> 
+        <div className="board-row"> 
+          <Square value={squares[6]} onSquareClick={() => handleClick(6)}/> 
+          <Square value={squares[7]} onSquareClick={() => handleClick(7)}/> 
+          <Square value={squares[8]} onSquareClick={() => handleClick(8)}/> 
+          
+        </div>
+      </div>
     </>
   )
 }
-
-export default App
