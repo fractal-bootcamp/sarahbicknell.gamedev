@@ -1,6 +1,6 @@
 // REWROTE TO UNDERSTAND LOGIC
 
-export type BoardType = [string, string, string, string, string, string, string, string, string]
+export type Board = string[]
 
 type Game = {
     board: Board
@@ -11,7 +11,7 @@ export type WinCondition = {
     winner?: String 
 }
 
-type WinPositon = [number, number, number]
+type MaybeWinningPosition = number[]
 
 export function checkWinCondition(game: Game): WinCondition{
 
@@ -21,11 +21,10 @@ export function checkWinCondition(game: Game): WinCondition{
     ]
     //evaluates if the board at that possible win position is a winner, if so it returns the first item in that position(so we can know if 
     //winner is x or o)
-    function checkIfWinner(possibleWinPosition: WinPositon) {
+    function checkIfWinner(possibleWinPosition: MaybeWinningPosition) {
         const firstItem = game.board[possibleWinPosition[0]]
         const secondItem = game.board[possibleWinPosition[1]]
         const thirdItem = game.board[possibleWinPosition[2]]
-        
 
         if (firstItem && firstItem === secondItem && secondItem === thirdItem) {
             console.log(firstItem)
@@ -43,7 +42,7 @@ export function checkWinCondition(game: Game): WinCondition{
         }
     }
     // if no winner found , check if it's a draw 
-    const areThereAnySpaces = game.board.includes(null)
+    const areThereAnySpaces = game.board.includes("")
     const isDraw = !areThereAnySpaces;
     if (isDraw) {
         return { outcome: 'draw' }
