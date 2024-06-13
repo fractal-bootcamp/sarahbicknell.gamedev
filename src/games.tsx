@@ -1,15 +1,12 @@
 // REWROTE TO UNDERSTAND LOGIC
-// WITHOUT TYPING NEED TO ADD LATER KILL ME
 
-const board = ['','','','','','','','','']
-
-export type Board = [string, string, string, string, string, string, string, string, string]
+export type BoardType = [string, string, string, string, string, string, string, string, string]
 
 type Game = {
     board: Board
 }
 
-type WinCondition = {
+export type WinCondition = {
     outcome: 'win' | 'draw' | null,
     winner?: String 
 }
@@ -46,7 +43,7 @@ export function checkWinCondition(game: Game): WinCondition{
         }
     }
     // if no winner found , check if it's a draw 
-    const areThereAnySpaces = game.board.includes("")
+    const areThereAnySpaces = game.board.includes(null)
     const isDraw = !areThereAnySpaces;
     if (isDraw) {
         return { outcome: 'draw' }
