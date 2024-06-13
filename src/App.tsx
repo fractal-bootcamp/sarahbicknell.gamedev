@@ -1,47 +1,100 @@
 import './App.css'
+import { useState } from 'react'
+import {BoardType, WinCondition, checkWinCondition} from './games'
+import pawImage from './assets/paw.png'
+import tankImage from './assets/tank.png'
 
-const game = {
-  board: [null, null, null, null, null, null, null, null, null]
-}
 
-function checkForWin(game) {
-
-    //array of possible win configurations
-    const possibleWinPositions = [
-      [0, 1, 2], [3, 4, 5], [6, 7, 9], [0, 3, 6], [1, 4, 7,], [2, 5, 8], [0, 4, 8], [2, 4, 6]
-    ]
-
-    // checks whether a given position is a winner and returns a boolean to represent this 
-    function isWinningPosition {
-
-      //.every 
-      return null
-    }
-
-  
-
-    //using .find to call the isWinning function to return the first possible position that is a win 
-    const winningPosition = possibleWinPositions.find(winPosition => {
-      const isWin = winPosition.every(index => {
-
-      })
-    })
-
-    // if there is a winning position, check 
-    if (winningPosition) {
-      return [outcome: 'win', winner: game.board[winningPosition[0]]
-    }
-}
-
-function App() {
+function Square({value, onSquareClick}) {
+  let displayValue; 
+  if (value === "X"){
+    displayValue = <img src={tankImage} alt="X" className="icon" />
+  } else if (value === "O") {
+    displayValue = <img src={pawImage} alt="O" className="icon" />;
+  }
 
   return (
-    <>
-    <div> 
-      <h1> TEEK TAK TOE</h1>
+    <button className="square" onClick={onSquareClick} > {displayValue} </button> 
+  )
+
+}
+
+function Reset({onResetClick}) {
+  return (
+    <button className="reset" onClick={onResetClick} > Reset </button>
+  )
+}
+
+export default function Board() {
+  const [nextPlayer, setNextPlayer] = useState(true)
+  const [squares, setSquares] = useState(Array(9).fill(null))
+
+  function handleClick(i: number) { 
+    if (squares[i] || winner) {
+      return
+    }
+    else {
+      const nextSquares = squares.slice();
+      if (nextPlayer) {
+      nextSquares[i] = "X" ;
+      } else {
+      nextSquares[i] = "O";
+      }
+      setNextPlayer(!nextPlayer)
+      setSquares(nextSquares) }
+  }
+  
+  function resetGame() { 
+    setSquares(Array(9).fill(null))
+    setNextPlayer(true)
+  }
+
+  const winState = checkWinCondition({board: squares})
+  const winner = winState.winner
+  let winnerName;
+  if (winner == "X"){
+    winnerName = "Tank"
+  } else if (winner == "O") {
+    winnerName = "Toe"
+  }
+  let status; 
+  if (winner) {
+    status = winnerName + " wins!"
+  } else if (winState.outcome == "draw") {
+    status = "Git gud noobs!"
+  } else {
+    //i should update this to be more clear probably 
+    status = (nextPlayer ? "Tank" : "Toe") + " goes next"
+  }
+  
+
+  return (
+    <> 
+    <div className="page">
+      <div className="game">
+        <h1 className="title "> Pink Tank Toe !</h1>
+        <div className="status"> {status} </div>
+        <div>
+          <div className="board-row">
+            <Square value={squares[0]} onSquareClick={() => handleClick(0)} /> 
+            <Square value={squares[1]} onSquareClick={() => handleClick(1)}/> 
+            <Square value={squares[2]} onSquareClick={() => handleClick(2)}/> 
+          </div> 
+          <div className="board-row"> 
+            <Square value={squares[3]} onSquareClick={() => handleClick(3)}/> 
+            <Square value={squares[4]} onSquareClick={() => handleClick(4)}/> 
+            <Square value={squares[5]} onSquareClick={() => handleClick(5)}/> 
+          </div> 
+          <div className="board-row"> 
+            <Square value={squares[6]} onSquareClick={() => handleClick(6)}/> 
+            <Square value={squares[7]} onSquareClick={() => handleClick(7)}/> 
+            <Square value={squares[8]} onSquareClick={() => handleClick(8)}/> 
+            
+          </div>
+        </div>
+          <Reset onResetClick={resetGame} /> 
+      </div>
     </div>
     </>
   )
 }
-
-export default App
