@@ -68,9 +68,9 @@ export default function GameBoard() {
   }
   let status; 
   if (winner) {
-    status = winnerName + " wins!"
+    status = (winnerName=="Tank"? "🎉🪖" : "🎉😼" ) + winnerName + " wins!" + (winnerName=="Tank"? "🪖🎉" : "😼🎉" )
   } else if (winState.outcome == "draw") {
-    status = "Git gud noobs!"
+    status = "💥😾Git gud noobs!😾💥"
   } else {
     //i should update this to be more clear probably 
     status = (nextPlayer ? "Tank" : "Toe") + " goes next" + (nextPlayer? "🪖" : "😼" )
