@@ -1,15 +1,12 @@
 // REWROTE TO UNDERSTAND LOGIC
-// WITHOUT TYPING NEED TO ADD LATER KILL ME
 
-const board = ['','','','','','','','','']
-
-export type Board = [string, string, string, string, string, string, string, string, string]
+export type BoardType = [string, string, string, string, string, string, string, string, string]
 
 type Game = {
     board: Board
 }
 
-type WinCondition = {
+export type WinCondition = {
     outcome: 'win' | 'draw' | null,
     winner?: String 
 }
