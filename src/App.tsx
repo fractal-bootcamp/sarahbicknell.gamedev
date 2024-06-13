@@ -1,11 +1,17 @@
 import './App.css'
 import { useState } from 'react'
-import {BoardType, WinCondition, checkWinCondition} from './games'
+import {Board, checkWinCondition} from './games'
 import pawImage from './assets/paw.png'
 import tankImage from './assets/tank.png'
 
+type SquareProps = {
+  value: string,
+  onSquareClick: ()=>void
+}
 
-function Square({value, onSquareClick}) {
+function Square({value, onSquareClick}:SquareProps) {
+
+
   let displayValue; 
   if (value === "X"){
     displayValue = <img src={tankImage} alt="X" className="icon" />
@@ -18,17 +24,20 @@ function Square({value, onSquareClick}) {
   )
 
 }
+interface ResetButtonProps {
+  onResetClick: () => void
+}
 
-function Reset({onResetClick}) {
+function ResetButton({onResetClick}:ResetButtonProps) {
   return (
     <button className="reset" onClick={onResetClick} > Reset </button>
   )
 }
 
-export default function Board() {
+const initialBoard:Board = Array(9).fill("")
+export default function GameBoard() {
   const [nextPlayer, setNextPlayer] = useState(true)
-  const [squares, setSquares] = useState(Array(9).fill(null))
-
+  const [squares, setSquares] = useState(initialBoard)
   function handleClick(i: number) { 
     if (squares[i] || winner) {
       return
@@ -45,7 +54,7 @@ export default function Board() {
   }
   
   function resetGame() { 
-    setSquares(Array(9).fill(null))
+    setSquares(Array(9).fill(""))
     setNextPlayer(true)
   }
 
@@ -64,7 +73,7 @@ export default function Board() {
     status = "Git gud noobs!"
   } else {
     //i should update this to be more clear probably 
-    status = (nextPlayer ? "Tank" : "Toe") + " goes next"
+    status = (nextPlayer ? "Tank" : "Toe") + " goes next" + (nextPlayer? "🪖" : "😼" )
   }
   
 
@@ -92,7 +101,7 @@ export default function Board() {
             
           </div>
         </div>
-          <Reset onResetClick={resetGame} /> 
+          <ResetButton onResetClick={resetGame} /> 
       </div>
     </div>
     </>
