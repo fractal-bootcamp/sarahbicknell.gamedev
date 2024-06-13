@@ -1,10 +1,20 @@
 import './App.css'
 import { useState } from 'react'
 import {BoardType, WinCondition, checkWinCondition} from './games'
+import pawImage from './assets/paw.png'
+import tankImage from './assets/tank.png'
+
 
 function Square({value, onSquareClick}) {
+  let displayValue; 
+  if (value === "X"){
+    displayValue = <img src={tankImage} alt="X" className="icon" />
+  } else if (value === "O") {
+    displayValue = <img src={pawImage} alt="O" className="icon" />;
+  }
+
   return (
-    <button className="square" onClick={onSquareClick} > {value} </button> 
+    <button className="square" onClick={onSquareClick} > {displayValue} </button> 
   )
 
 }
@@ -41,14 +51,20 @@ export default function Board() {
 
   const winState = checkWinCondition({board: squares})
   const winner = winState.winner
+  let winnerName;
+  if (winner == "X"){
+    winnerName = "Tank"
+  } else if (winner == "O") {
+    winnerName = "Toe"
+  }
   let status; 
   if (winner) {
-    status = winner + " wins!"
+    status = winnerName + " wins!"
   } else if (winState.outcome == "draw") {
-    status = "Nobody wins!"
+    status = "Git gud noobs!"
   } else {
     //i should update this to be more clear probably 
-    status = (nextPlayer ? "X" : "O") + " goes next"
+    status = (nextPlayer ? "Tank" : "Toe") + " goes next"
   }
   
 
@@ -56,7 +72,7 @@ export default function Board() {
     <> 
     <div className="page">
       <div className="game">
-        <h1 className="title "> Tink Tank Toe !</h1>
+        <h1 className="title "> Pink Tank Toe !</h1>
         <div className="status"> {status} </div>
         <div>
           <div className="board-row">
