@@ -43,7 +43,7 @@ export function checkWinCondition(game: Game): WinCondition{
         }
     }
     // if no winner found , check if it's a draw 
-    const areThereAnySpaces = game.board.includes("")
+    const areThereAnySpaces = game.board.includes(null)
     const isDraw = !areThereAnySpaces;
     if (isDraw) {
         return { outcome: 'draw' }
