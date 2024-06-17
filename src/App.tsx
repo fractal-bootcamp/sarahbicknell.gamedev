@@ -1,8 +1,20 @@
 import './App.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {Board, checkWinCondition} from './games'
 import pawImage from './assets/paw.png'
 import tankImage from './assets/tank.png'
+import { motion } from 'framer-motion'
+
+const ImagePreloader = ({ srcList }) => {
+  useEffect(() => {
+    srcList.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, [srcList]);
+
+  return null;
+};
 
 type SquareProps = {
   value: string,
@@ -20,7 +32,9 @@ function Square({value, onSquareClick}:SquareProps) {
   }
 
   return (
-    <button className="square" onClick={onSquareClick} > {displayValue} </button> 
+    <motion.button className="square" onClick={onSquareClick} whileHover={{scale: 1.025}} whileTap={{scale: 0.95}} transformTemplate={(props, transform) =>
+      transform.replace(" translateZ(0)", "")
+    }> {displayValue} </motion.button> 
   )
 
 }
@@ -30,9 +44,10 @@ interface ResetButtonProps {
 
 function ResetButton({onResetClick}:ResetButtonProps) {
   return (
-    <button className="reset" onClick={onResetClick} > Reset </button>
+    <motion.button className="reset" onClick={onResetClick} whileHover={{scale: 1.05}} whileTap={{scale: 0.9}} > Reset </motion.button>
   )
 }
+
 
 const initialBoard:Board = Array(9).fill("")
 export default function GameBoard() {
@@ -68,7 +83,7 @@ export default function GameBoard() {
   }
   let status; 
   if (winner) {
-    status = (winnerName=="Tank"? "🎉🪖" : "🎉😼" ) + winnerName + " wins!" + (winnerName=="Tank"? "🪖🎉" : "😼🎉" )
+    status = (winnerName=="Tank"? "🎉🪖 " : "🎉😼 " ) + winnerName + " wins!" + (winnerName=="Tank"? " 🪖🎉" : " 😼🎉" )
   } else if (winState.outcome == "draw") {
     status = "💥😾Git gud noobs!😾💥"
   } else {
@@ -79,9 +94,10 @@ export default function GameBoard() {
 
   return (
     <> 
+    <ImagePreloader srcList={[pawImage, tankImage]} />
     <div className="page">
       <div className="game">
-        <h1 className="title "> Pink Tank Toe !</h1>
+        <h1 className="title "> Pink Tank Toe </h1>
         <div className="status"> {status} </div>
         <div>
           <div className="board-row">
