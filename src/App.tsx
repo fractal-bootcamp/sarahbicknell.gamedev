@@ -5,7 +5,11 @@ import pawImage from './assets/paw.png'
 import tankImage from './assets/tank.png'
 import { motion } from 'framer-motion'
 
-const ImagePreloader = ({ srcList }) => {
+interface ImagePreloaderProps {
+  srcList: string[];
+}
+
+const ImagePreloader: React.FC<ImagePreloaderProps> = ({ srcList}) => {
   useEffect(() => {
     srcList.forEach(src => {
       const img = new Image();
@@ -81,14 +85,21 @@ export default function GameBoard() {
   } else if (winner == "O") {
     winnerName = "Toe"
   }
-  let status; 
+  let statusComponent; 
   if (winner) {
-    status = (winnerName=="Tank"? "🎉🪖 " : "🎉😼 " ) + winnerName + " wins!" + (winnerName=="Tank"? " 🪖🎉" : " 😼🎉" )
+    statusComponent = (
+      <motion.div       
+      initial={{ rotate: 0 }}
+      animate={{ rotate: 360 }}
+      transition={{ duration: 0.5 }}
+      className="status"> 
+        {(winnerName=="Tank"? "🎉🪖 " : "🎉😼 " ) + winnerName + " wins!" + (winnerName=="Tank"? " 🪖🎉" : " 😼🎉" )}
+      </motion.div> )
   } else if (winState.outcome == "draw") {
-    status = "💥😾Git gud noobs!😾💥"
+    statusComponent = "💥😾Git gud noobs!😾💥"
   } else {
     //i should update this to be more clear probably 
-    status = (nextPlayer ? "Tank" : "Toe") + " goes next" + (nextPlayer? "🪖" : "😼" )
+    statusComponent= (nextPlayer ? "Tank" : "Toe") + " goes next" + (nextPlayer? "🪖" : "😼" )
   }
   
 
@@ -98,7 +109,7 @@ export default function GameBoard() {
     <div className="page">
       <div className="game">
         <h1 className="title "> Pink Tank Toe </h1>
-        <div className="status"> {status} </div>
+        <div className="status"> {statusComponent} </div>
         <div>
           <div className="board-row">
             <Square value={squares[0]} onSquareClick={() => handleClick(0)} /> 
