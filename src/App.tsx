@@ -36,8 +36,9 @@ function Square({value, onSquareClick}:SquareProps) {
   }
 
   return (
-    <motion.button className="square" onClick={onSquareClick} whileHover={{scale: 1.025}} whileTap={{scale: 0.95}} transformTemplate={(props, transform) =>
+    <motion.button className="square" onClick={onSquareClick} whileHover={{scale: 1.025}} whileTap={{scale: 0.95}} transformTemplate={(_, transform) =>
       transform.replace(" translateZ(0)", "")
+      
     }> {displayValue} </motion.button> 
   )
 
